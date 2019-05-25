@@ -44,7 +44,7 @@ namespace Hoplon.Domain.Implementation
             if (!existSubIndex)
             {
               var valor = new KeyValuePair<int, List<string>>(subIndex, new List<string> { value });
-              chave.Value.Add(valor);
+              chave.Value.AddOrdered(valor);
               return false;
             }
             else
@@ -78,7 +78,7 @@ namespace Hoplon.Domain.Implementation
         var valor = new KeyValuePair<int, List<string>>(subIndex, new List<string> { value });
         collection.Key = key;
         collection.Value.AddOrdered(valor);
-        _collectionHoplon.Add(collection);
+        _collectionHoplon.AddOrdered(collection);
 
         return true;
       }

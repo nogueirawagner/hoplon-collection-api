@@ -4,6 +4,7 @@ using Hoplon.Domain.Utilitarios.ExtensionMethods;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ConsoleApp1
 {
@@ -23,17 +24,20 @@ namespace ConsoleApp1
       hs.AddOrdered("i");
 
 
-      var teste = new Teste();
-      teste.Adiciona("ano.nascimento", 1980, "wagner");
-      teste.Adiciona("ano.nascimento", 1980, "maria");
-      teste.Adiciona("ano.nascimento", 1980, "joao");
-      teste.Adiciona("ano.nascimento", 1980, "pedro");
+      var x = hs.Take(3);
+      var y = hs.Skip(3);
 
-      teste.Adiciona("ano.nascimento", 2000, "pedro");
-      teste.Adiciona("ano.nascimento", 2000, "pedro");
-      teste.Adiciona("ano.nascimento", 2000, "pedro");
+      Console.WriteLine("Lista Inteira");
+      foreach (var h in hs)
+        Console.WriteLine("valor {0}", h);
 
+      Console.WriteLine("\nTake");
+      foreach (var xx in x)
+        Console.WriteLine("valor {0}", xx);
 
+      Console.WriteLine("\nSkip");
+      foreach (var yy in y)
+        Console.WriteLine("valor {0}", yy);
       Console.ReadKey();
     }
   }
@@ -52,7 +56,7 @@ namespace ConsoleApp1
   public class Teste : IHoplonCollection
   {
     public List<Colecao> Colecoes = new List<Colecao>();
-  
+
     public void Adiciona(string chave, int index, string valor)
     {
       var valores = new List<KeyValuePair<int, HashSet<string>>>

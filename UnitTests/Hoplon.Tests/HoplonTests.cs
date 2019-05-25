@@ -407,19 +407,16 @@ namespace Hoplon.Tests
       Assert.IsTrue(hc.Add("nomes", 1981, "Maria Coró"));
       Assert.IsTrue(hc.Add("nomes", 1981, "Maria Carla"));
 
-     
-
-
-
-
       var retorno = hc.RetornoTeste();
 
       string[] compare1980 = { "Carlos", "Cristiano", "Cristiano Araujo", "Cristiano Braujo", "Cristiano Craujo", "Willian" };
       string[] compare1981 = { "Maria Alves", "Maria Borboleta", "Maria Carla", "Maria Coró", "Mercia" };
       string[] compare1982 = { "Ana Julia", "Bruno", "Paulo", "Roberto", "Wagner" };
-
+      int[] compareSubIndices = { 1980, 1981, 1982, 2001 };
       // Qtd de chaves
       Assert.AreEqual(retorno.Count, 1);
+      // Qt de subIndices
+      Assert.AreEqual(retorno.First().Value.Count, 4);
 
       // subIndice 1980
       var si1980 = retorno.First().Value.First(s => s.Key == 1980);
@@ -438,6 +435,35 @@ namespace Hoplon.Tests
       tam = si1982.Value.Count();
       for (int i = 0; i < tam; i++)
         Assert.AreEqual(si1982.Value[i], compare1982[i]);
+
+      tam = retorno.First().Value.Count;
+        for (int i = 0; i < tam; i++)
+        Assert.AreEqual(retorno.First().Value[i].Key, compareSubIndices[i]);
+    }
+
+    [TestMethod]
+    [Description("Testar ordenacao de valores de cada chave")]
+    public void TestarOrdenacaoDeChaves()
+    {
+      var hc = new HoplonCollection();
+      Assert.IsTrue(hc.Add("cidades", 2001, "Goiás"));
+
+      Assert.IsTrue(hc.Add("países", 1982, "BR"));
+
+      Assert.IsTrue(hc.Add("bairros", 1980, "Atheneu"));
+
+      Assert.IsTrue(hc.Add("nomes", 1981, "Mercia"));
+
+      var retorno = hc.RetornoTeste();
+
+      string[] compare = { "bairros", "cidades", "nomes", "países"};
+      
+      // Qtd de chaves
+      Assert.AreEqual(retorno.Count, 4);
+      
+      var tam = retorno.First().Value.Count;
+      for (int i = 0; i < tam; i++)
+        Assert.AreEqual(retorno[0].Key, compare[i]);
     }
   }
 }
