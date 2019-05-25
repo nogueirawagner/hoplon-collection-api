@@ -1,6 +1,7 @@
 using Hoplon.Domain.Implementation;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Hoplon.Tests
 {
@@ -15,6 +16,11 @@ namespace Hoplon.Tests
       Assert.IsTrue(hc.Add("ano.nascimento", 1980, "pedro"));
       Assert.IsFalse(hc.Add("ano.nascimento", 1981, "pedro"));
       Assert.IsTrue(hc.Add("ano.nascimento", 1980, "joao"));
+
+      var retorno = hc.Get("ano.nascimento", 0, 0);
+      Assert.AreEqual(retorno.Count(), 2);
+      Assert.AreEqual(retorno[0], "joao");
+      Assert.AreEqual(retorno[1], "pedro");
 
       var RetornoApoioTeste = hc.RetornoApoioTeste();
       Assert.AreEqual(RetornoApoioTeste.Count, 1);
@@ -42,6 +48,12 @@ namespace Hoplon.Tests
       Assert.IsTrue(hc.Add("ano.nascimento", 1980, "joao"));
       Assert.IsTrue(hc.Add("ano.nascimento", 1982, "paulo"));
 
+      var retornoGet = hc.Get("ano.nascimento", 0, 0);
+      Assert.AreEqual(retornoGet.Count(), 3);
+      Assert.AreEqual(retornoGet[0], "joao"); // 1980
+      Assert.AreEqual(retornoGet[1], "pedro"); // 1981
+      Assert.AreEqual(retornoGet[2], "paulo"); // 1982
+
       var retorno = hc.RetornoApoioTeste();
       Assert.AreEqual(retorno.Count, 1);
 
@@ -66,6 +78,11 @@ namespace Hoplon.Tests
       Assert.IsTrue(hc.Add("ano.nascimento", 1980, "pedro"));
       Assert.IsFalse(hc.Add("ano.nascimento", 1980, "pedro"));
       Assert.IsTrue(hc.Add("ano.nascimento", 1980, "joao"));
+
+      var retornoGet = hc.Get("ano.nascimento", 0, 0);
+      Assert.AreEqual(retornoGet.Count(), 2);
+      Assert.AreEqual(retornoGet[0], "joao");
+      Assert.AreEqual(retornoGet[1], "pedro");
 
       var retorno = hc.RetornoApoioTeste();
       Assert.AreEqual(retorno.First().Key, "ano.nascimento");
@@ -96,6 +113,12 @@ namespace Hoplon.Tests
       Assert.IsFalse(hc.Add("ano.nascimento", 2020, "pedro"));
       Assert.IsFalse(hc.Add("ano.nascimento", 2020, "maria"));
       Assert.IsFalse(hc.Add("ano.nascimento", 2020, "joao"));
+
+      var retornoGet = hc.Get("ano.nascimento", 0, 0);
+      Assert.AreEqual(retornoGet.Count(), 3);
+      Assert.AreEqual(retornoGet[0], "joao");
+      Assert.AreEqual(retornoGet[1], "maria");
+      Assert.AreEqual(retornoGet[2], "pedro");
 
       var retorno = hc.RetornoApoioTeste();
       Assert.AreEqual(retorno.First().Key, "ano.nascimento");
@@ -143,6 +166,16 @@ namespace Hoplon.Tests
       Assert.IsTrue(hc.Add("ano.nascimento", 2020, "ford"));
       Assert.IsTrue(hc.Add("ano.nascimento", 2020, "focus"));
 
+      string[] compare = { "joao", "maria", "pedro", "arthur", "eros", "wagner", "layane", "lidia", "pai", "cachorro", "focus", "ford" };
+
+      var retornoGet = hc.Get("ano.nascimento", 0, 0);
+      Assert.AreEqual(retornoGet.Count(), 12);
+
+      Parallel.For(0, retornoGet.Count, i =>
+      {
+        Assert.AreEqual(retornoGet[i], compare[i]);
+      });
+
       var retorno = hc.RetornoApoioTeste();
       Assert.AreEqual(retorno.First().Key, "ano.nascimento");
       Assert.AreEqual(retorno.First().Value.Count, 4);
@@ -188,6 +221,18 @@ namespace Hoplon.Tests
       Assert.IsTrue(hc.Add("cidades", 1980, "pedro"));
       Assert.IsTrue(hc.Add("cidades", 1980, "maria"));
       Assert.IsTrue(hc.Add("cidades", 1980, "joao"));
+
+      var retornoGet = hc.Get("ano.nascimento", 0, 0);
+      Assert.AreEqual(retornoGet.Count(), 3);
+      Assert.AreEqual(retornoGet[0], "joao");
+      Assert.AreEqual(retornoGet[1], "maria");
+      Assert.AreEqual(retornoGet[2], "pedro");
+
+      retornoGet = hc.Get("cidades", 0, 0);
+      Assert.AreEqual(retornoGet.Count(), 3);
+      Assert.AreEqual(retornoGet[0], "joao");
+      Assert.AreEqual(retornoGet[1], "maria");
+      Assert.AreEqual(retornoGet[2], "pedro");
 
       var retorno = hc.RetornoApoioTeste();
 
@@ -238,6 +283,29 @@ namespace Hoplon.Tests
       Assert.IsTrue(hc.Add("jogos", 5001, "futebol"));
       Assert.IsTrue(hc.Add("jogos", 5002, "voley"));
 
+      var retornoGet = hc.Get("ano.nascimento", 0, 0);
+      Assert.AreEqual(retornoGet.Count(), 3);
+      Assert.AreEqual(retornoGet[0], "pedro"); // 80
+      Assert.AreEqual(retornoGet[1], "maria"); // 81
+      Assert.AreEqual(retornoGet[2], "joao");  // 82
+
+      retornoGet = hc.Get("cidades", 0, 0);
+      Assert.AreEqual(retornoGet.Count(), 3);
+      Assert.AreEqual(retornoGet[0], "anapolis"); // 00
+      Assert.AreEqual(retornoGet[1], "goiania"); // 01
+      Assert.AreEqual(retornoGet[2], "florianopolis"); // 02
+
+      retornoGet = hc.Get("carros", 0, 0);
+      Assert.AreEqual(retornoGet.Count(), 3);
+      Assert.AreEqual(retornoGet[0], "focus");
+      Assert.AreEqual(retornoGet[1], "mustang");
+      Assert.AreEqual(retornoGet[2], "fusion");
+
+      retornoGet = hc.Get("jogos", 0, 0);
+      Assert.AreEqual(retornoGet.Count(), 3);
+      Assert.AreEqual(retornoGet[0], "basquete");
+      Assert.AreEqual(retornoGet[1], "futebol");
+      Assert.AreEqual(retornoGet[2], "voley");
 
       var retorno = hc.RetornoApoioTeste();
 
@@ -349,32 +417,47 @@ namespace Hoplon.Tests
       Assert.IsTrue(hc.Add("nomes", 1982, "Bruno"));
       Assert.IsTrue(hc.Add("nomes", 1982, "Paulo"));
 
-      var retorno = hc.RetornoApoioTeste();
-
       string[] compare1980 = { "Carlos", "Cristiano", "Cristiano Araujo", "Cristiano Braujo", "Cristiano Craujo", "Willian" };
       string[] compare1981 = { "Maria Alves", "Maria Borboleta", "Maria Carla", "Maria Coró", "Mercia" };
       string[] compare1982 = { "Ana Julia", "Bruno", "Paulo", "Roberto", "Wagner" };
+      string[] compareGet = {
+        "Carlos", "Cristiano", "Cristiano Araujo", "Cristiano Braujo", "Cristiano Craujo", "Willian",
+        "Maria Alves", "Maria Borboleta", "Maria Carla", "Maria Coró", "Mercia",
+        "Ana Julia", "Bruno", "Paulo", "Roberto", "Wagner"
+      };
+
+      var retornoGet = hc.Get("nomes", 0, 0);
+      Assert.AreEqual(retornoGet.Count(), 16);
+      Parallel.For(0, retornoGet.Count, i =>
+      {
+        Assert.AreEqual(retornoGet[i], compareGet[i]);
+      });
+
+      var retorno = hc.RetornoApoioTeste();
 
       // Qtd de chaves
       Assert.AreEqual(retorno.Count, 1);
 
       // subIndice 1980
       var si1980 = retorno.First().Value.First(s => s.Key == 1980);
-      var tam = si1980.Value.Count();
-      for (int i = 0; i < tam; i++)
+      Parallel.For(0, si1980.Value.Count(), i =>
+      {
         Assert.AreEqual(si1980.Value[i], compare1980[i]);
+      });
 
       // subIndice 1981
       var si1981 = retorno.First().Value.First(s => s.Key == 1981);
-      tam = si1981.Value.Count();
-      for (int i = 0; i < tam; i++)
+      Parallel.For(0, si1981.Value.Count(), i =>
+      {
         Assert.AreEqual(si1981.Value[i], compare1981[i]);
+      });
 
       // subIndice 1982
       var si1982 = retorno.First().Value.First(s => s.Key == 1982);
-      tam = si1982.Value.Count();
-      for (int i = 0; i < tam; i++)
+      Parallel.For(0, si1982.Value.Count(), i =>
+      {
         Assert.AreEqual(si1982.Value[i], compare1982[i]);
+      });
     }
 
     [TestMethod]
@@ -407,12 +490,25 @@ namespace Hoplon.Tests
       Assert.IsTrue(hc.Add("nomes", 1981, "Maria Coró"));
       Assert.IsTrue(hc.Add("nomes", 1981, "Maria Carla"));
 
-      var retorno = hc.RetornoApoioTeste();
-
       string[] compare1980 = { "Carlos", "Cristiano", "Cristiano Araujo", "Cristiano Braujo", "Cristiano Craujo", "Willian" };
       string[] compare1981 = { "Maria Alves", "Maria Borboleta", "Maria Carla", "Maria Coró", "Mercia" };
       string[] compare1982 = { "Ana Julia", "Bruno", "Paulo", "Roberto", "Wagner" };
+      string[] compare2001 = { "Estelio", "Gabriel", "Julia", "Layane", "Marcos" };
       int[] compareSubIndices = { 1980, 1981, 1982, 2001 };
+      string[] compareGet = {
+        "Carlos", "Cristiano", "Cristiano Araujo", "Cristiano Braujo", "Cristiano Craujo", "Willian",
+        "Maria Alves", "Maria Borboleta", "Maria Carla", "Maria Coró", "Mercia",
+        "Ana Julia", "Bruno", "Paulo", "Roberto", "Wagner", "Estelio", "Gabriel", "Julia", "Layane", "Marcos"
+      };
+
+      var retornoGet = hc.Get("nomes", 0, 0);
+      Assert.AreEqual(retornoGet.Count(), 21);
+      Parallel.For(0, retornoGet.Count, i =>
+      {
+        Assert.AreEqual(retornoGet[i], compareGet[i]);
+      });
+
+      var retorno = hc.RetornoApoioTeste();
       // Qtd de chaves
       Assert.AreEqual(retorno.Count, 1);
       // Qt de subIndices
@@ -420,25 +516,37 @@ namespace Hoplon.Tests
 
       // subIndice 1980
       var si1980 = retorno.First().Value.First(s => s.Key == 1980);
-      var tam = si1980.Value.Count();
-      for (int i = 0; i < tam; i++)
+      Parallel.For(0, si1980.Value.Count(), i =>
+      {
         Assert.AreEqual(si1980.Value[i], compare1980[i]);
+      });
 
       // subIndice 1981
       var si1981 = retorno.First().Value.First(s => s.Key == 1981);
-      tam = si1981.Value.Count();
-      for (int i = 0; i < tam; i++)
+      Parallel.For(0, si1981.Value.Count(), i =>
+      {
         Assert.AreEqual(si1981.Value[i], compare1981[i]);
+      });
 
       // subIndice 1982
       var si1982 = retorno.First().Value.First(s => s.Key == 1982);
-      tam = si1982.Value.Count();
-      for (int i = 0; i < tam; i++)
+      Parallel.For(0, si1982.Value.Count(), i =>
+      {
         Assert.AreEqual(si1982.Value[i], compare1982[i]);
+      });
 
-      tam = retorno.First().Value.Count;
-      for (int i = 0; i < tam; i++)
+      // subIndice 2000
+      var si2001 = retorno.First().Value.First(s => s.Key == 2001);
+      Parallel.For(0, si2001.Value.Count(), i =>
+      {
+        Assert.AreEqual(si2001.Value[i], compare2001[i]);
+      });
+
+      // subIndices
+      Parallel.For(0, retorno.First().Value.Count, i =>
+      {
         Assert.AreEqual(retorno.First().Value[i].Key, compareSubIndices[i]);
+      });
     }
 
     [TestMethod]
@@ -458,12 +566,30 @@ namespace Hoplon.Tests
 
       string[] compare = { "bairros", "cidades", "nomes", "países" };
 
+      var retornoGet = hc.Get("cidades", 0, 0);
+      Assert.AreEqual(retornoGet.Count(), 1);
+      Assert.AreEqual(retornoGet[0], "Goiás");
+
+      retornoGet = hc.Get("países", 0, 0);
+      Assert.AreEqual(retornoGet.Count(), 1);
+      Assert.AreEqual(retornoGet[0], "BR");
+
+      retornoGet = hc.Get("bairros", 0, 0);
+      Assert.AreEqual(retornoGet.Count(), 1);
+      Assert.AreEqual(retornoGet[0], "Atheneu");
+
+      retornoGet = hc.Get("nomes", 0, 0);
+      Assert.AreEqual(retornoGet.Count(), 1);
+      Assert.AreEqual(retornoGet[0], "Mercia");
+
       // Qtd de chaves
       Assert.AreEqual(retorno.Count, 4);
 
       var tam = retorno.First().Value.Count;
-      for (int i = 0; i < tam; i++)
+      Parallel.For(0, tam, i =>
+      {
         Assert.AreEqual(retorno[0].Key, compare[i]);
+      });
     }
 
     [TestMethod]
@@ -483,8 +609,10 @@ namespace Hoplon.Tests
       string[] compare = { "Carlos", "Cristiano", "Cristiano Araujo", "Cristiano Braujo", "Cristiano Craujo", "Willian" };
 
       Assert.AreEqual(retorno.Count, 6);
-      for (int i = 0; i < 6; i++)
+      Parallel.For(0, 6, i =>
+      {
         Assert.AreEqual(retorno[i], compare[i]);
+      });
     }
 
     [TestMethod]
@@ -505,8 +633,10 @@ namespace Hoplon.Tests
       string[] compare = { "Carlos", "Cristiano Araujo", "Cristiano", "Willian", "Cristiano Craujo", "Cristiano Braujo" };
 
       Assert.AreEqual(retorno.Count, 6);
-      for (int i = 0; i < 6; i++)
+      Parallel.For(0, 6, i =>
+      {
         Assert.AreEqual(retorno[i], compare[i]);
+      });
     }
 
     [TestMethod]
@@ -526,8 +656,10 @@ namespace Hoplon.Tests
       string[] compare = { "Cristiano", "Cristiano Araujo", "Cristiano Braujo" };
 
       Assert.AreEqual(retorno.Count, 3);
-      for (int i = 0; i < 3; i++)
+      Parallel.For(0, 3, i =>
+      {
         Assert.AreEqual(retorno[i], compare[i]);
+      });
     }
 
     [TestMethod]
@@ -542,21 +674,37 @@ namespace Hoplon.Tests
       Assert.IsTrue(hc.Add("nomes", 1980, "Cristiano Braujo"));
       Assert.IsTrue(hc.Add("nomes", 1980, "Cristiano Araujo"));
 
-      Assert.IsTrue(hc.Add("carro", 1980, "Carlos"));
-      Assert.IsTrue(hc.Add("carro", 1980, "Willian"));
-      Assert.IsTrue(hc.Add("carro", 1980, "Cristiano"));
+      Assert.IsTrue(hc.Add("carro", 1980, "Gol"));
+      Assert.IsTrue(hc.Add("carro", 1980, "Parati"));
+      Assert.IsTrue(hc.Add("carro", 1980, "Fusion"));
 
-      Assert.IsTrue(hc.Add("jogos", 1980, "Cristiano Craujo"));
-      Assert.IsTrue(hc.Add("jogos", 1980, "Cristiano Braujo"));
-      Assert.IsTrue(hc.Add("jogos", 1980, "Cristiano Araujo"));
+      Assert.IsTrue(hc.Add("jogos", 1980, "dama"));
+      Assert.IsTrue(hc.Add("jogos", 1980, "Futebol"));
+      Assert.IsTrue(hc.Add("jogos", 1980, "Basquete"));
+
+
+      string[] compareNomes = { "Cristiano", "Cristiano Araujo", "Cristiano Braujo" };
+      string[] compareCarro = { "Gol", "Parati" };
+      string[] compareJogos = { "dama", "Futebol" };
 
       var retorno = hc.Get("nomes", 1, 3);
-
-      string[] compare = { "Cristiano", "Cristiano Araujo", "Cristiano Braujo" };
-
       Assert.AreEqual(retorno.Count, 3);
-      for (int i = 0; i < 3; i++)
-        Assert.AreEqual(retorno[i], compare[i]);
+      Parallel.For(0, 3, i =>
+      {
+        Assert.AreEqual(retorno[i], compareNomes[i]);
+      });
+
+      retorno = hc.Get("carro", 1, 3);
+      Parallel.For(0, 2, i =>
+      {
+        Assert.AreEqual(retorno[i], compareCarro[i]);
+      });
+
+      retorno = hc.Get("jogos", 1, 3);
+      Parallel.For(0, 2, i =>
+      {
+        Assert.AreEqual(retorno[i], compareJogos[i]);
+      });
     }
 
     [TestMethod]
@@ -579,13 +727,31 @@ namespace Hoplon.Tests
       Assert.IsTrue(hc.Add("jogos", 3474, "gude"));
       Assert.IsTrue(hc.Add("jogos", 7895, "ping pong"));
 
+      string[] compareNomes = { "Cristiano Craujo", "Cristiano", "Cristiano Braujo" };
+      string[] compareCarro = { "Fusca", "Gol" };
+      string[] compareJogos = { "Futebol", "ping pong" };
+
       var retorno = hc.Get("nomes", 1, 3);
-
-      string[] compare = { "Cristiano Craujo", "Cristiano", "Cristiano Braujo" };
-
       Assert.AreEqual(retorno.Count, 3);
-      for (int i = 0; i < 3; i++)
-        Assert.AreEqual(retorno[i], compare[i]);
+      Parallel.For(0, 3, i =>
+      {
+        Assert.AreEqual(retorno[i], compareNomes[i]);
+      });
+
+      retorno = hc.Get("carro", 1, 3);
+      Assert.AreEqual(retorno.Count, 2);
+      Parallel.For(0, 2, i =>
+      {
+        Assert.AreEqual(retorno[i], compareCarro[i]);
+      });
+
+      retorno = hc.Get("jogos", 1, 2);
+      Assert.AreEqual(retorno.Count, 2);
+      Parallel.For(0, 2, i =>
+      {
+        Assert.AreEqual(retorno[i], compareJogos[i]);
+      });
+
     }
 
     [TestMethod]
@@ -605,8 +771,10 @@ namespace Hoplon.Tests
       string[] compare = { "Carlos", "Cristiano", "Cristiano Araujo", "Cristiano Braujo", "Cristiano Craujo", "Willian" };
 
       Assert.AreEqual(retorno.Count, 6);
-      for (int i = 0; i < 6; i++)
+      Parallel.For(0, 6, i =>
+      {
         Assert.AreEqual(retorno[i], compare[i]);
+      });
     }
 
     [TestMethod]
@@ -626,38 +794,50 @@ namespace Hoplon.Tests
       string[] compare = { "Carlos", "Cristiano", "Cristiano Araujo", "Cristiano Braujo", "Cristiano Craujo", "Willian" };
 
       Assert.AreEqual(retorno.Count, 6);
-      for (int i = 0; i < 6; i++)
+      Parallel.For(0, 6, i =>
+      {
         Assert.AreEqual(retorno[i], compare[i]);
+      });
 
       // -2 
       retorno = hc.Get("nomes", 0, -2);
       Assert.AreEqual(retorno.Count, 5);
-      for (int i = 0; i < 5; i++)
+      Parallel.For(0, 5, i =>
+      {
         Assert.AreEqual(retorno[i], compare[i]);
+      });
 
       // -3 
       retorno = hc.Get("nomes", 0, -3);
       Assert.AreEqual(retorno.Count, 4);
-      for (int i = 0; i < 4; i++)
+      Parallel.For(0, 4, i =>
+      {
         Assert.AreEqual(retorno[i], compare[i]);
+      });
 
       // -4 
       retorno = hc.Get("nomes", 0, -4);
       Assert.AreEqual(retorno.Count, 3);
-      for (int i = 0; i < 3; i++)
+      Parallel.For(0, 3, i =>
+      {
         Assert.AreEqual(retorno[i], compare[i]);
+      });
 
       // -5 
       retorno = hc.Get("nomes", 0, -5);
       Assert.AreEqual(retorno.Count, 2);
-      for (int i = 0; i < 2; i++)
+      Parallel.For(0, 2, i =>
+      {
         Assert.AreEqual(retorno[i], compare[i]);
+      });
 
       // -6 
       retorno = hc.Get("nomes", 0, -6);
       Assert.AreEqual(retorno.Count, 1);
-      for (int i = 0; i < 1; i++)
+      Parallel.For(0, 1, i =>
+      {
         Assert.AreEqual(retorno[i], compare[i]);
+      });
 
       // -7 
       retorno = hc.Get("nomes", 0, -7);
@@ -666,8 +846,10 @@ namespace Hoplon.Tests
       // -8 
       retorno = hc.Get("nomes", 0, -8);
       Assert.AreEqual(retorno.Count, 6);
-      for (int i = 0; i < 6; i++)
+      Parallel.For(0, 6, i =>
+      {
         Assert.AreEqual(retorno[i], compare[i]);
+      });
     }
 
     [TestMethod]

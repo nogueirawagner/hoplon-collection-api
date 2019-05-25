@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Hoplon.Domain.Utilitarios
 {
@@ -12,6 +13,9 @@ namespace Hoplon.Domain.Utilitarios
     /// <returns></returns>
     public static int GetIndexValue(List<KeyValuePair<int, List<string>>> colection, string value)
     {
+     // Parallel.ForEach() implementar usando o parallel.
+
+
       int index = 0;
       foreach (var col in colection)  // o(n) 
       {

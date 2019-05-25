@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Hoplon.Domain.Interface;
-using Microsoft.AspNetCore.Http;
+﻿using Hoplon.Domain.Interface;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace Hoplon.API.Controllers
 {

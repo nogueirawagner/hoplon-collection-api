@@ -121,12 +121,8 @@ namespace Hoplon.Domain.Implementation
       var chave = _collectionHoplon.Where(s => s.Key == key); // O(n)
 
       retorno = chave.SelectMany(s => s.Value.SelectMany(x => x.Value).AsEnumerable()).AsEnumerable().ToList(); // O(n) + O(n) + O(n) + O(n) = O(4n) :. O(n)
-      return retorno.ToLower().IndexOf(value.ToLower()); // O(n²)
+      return retorno.ToLower().IndexOf(value.ToLower()); // n log(n)
     }
-    // Se fosse uma regra inserir só dados lower/upper case não precisaria desse toLower extendido... 
-    // Está aí porque se pesquisar por caracter minusculo não encontra o maiusculo.
-    // Estudar uma melhor forma pra resolver e fzer o algoritmo voltar a ser O(n)
-    // O(n² + n) :. O(n²)
 
     public bool Remove(string key)
     {
@@ -152,8 +148,10 @@ namespace Hoplon.Domain.Implementation
     // O(4n) :. O(n)
 
     /// <summary>
-    /// Este método está implementado somente para apoiar nos testes automatizados... 
+    /// Este método está implementado somente para apoiar nos testes automatizados
+    /// Afim de testar a estrutura de dados 
     /// Talvez eu ainda irei retirar este método caso necessário.
+    /// Veja que na API não está disponível.
     /// </summary>
     /// <returns></returns>
     public IList<CollectionHoplon> RetornoApoioTeste()

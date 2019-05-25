@@ -69,8 +69,10 @@ namespace Hoplon.Domain.Utilitarios.ExtensionMethods
 
     public static List<string> ToLower(this List<string> list)
     {
-      for (int i = 0; i < list.Count(); i++) // O (n)
-        list[i] = list[i].ToLower(); // n O(n) = O(n²)
+      Parallel.For(0, list.Count(), i => 
+      {
+        list[i] = list[i].ToLower();
+      }); // n log(n)
       return list;
     }
   }
