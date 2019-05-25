@@ -13,18 +13,21 @@ namespace Hoplon.Domain.Utilitarios
     public static int GetIndexValue(List<KeyValuePair<int, List<string>>> colection, string value)
     {
       int index = 0;
-      foreach (var col in colection)
+      foreach (var col in colection)  // o(n) 
       {
-        foreach (var val in col.Value)
+        foreach (var val in col.Value) // n O(n) = O(n²)
         {
-          if (val == value)
+          if (val == value)  // n O(n) = O(n²)
           {
-            index = col.Key;
-            break;
+            index = col.Key; // n O(n) = O(n²)
+            break; // n O(n) = O(n²)
           }
         }
       }
-      return index;
+      return index; // O(n) 
     }
+    // logo esta fn O(3n² + 2n)
+    // risca 3 e desconsidera n 
+    // = O(n²)
   }
 }

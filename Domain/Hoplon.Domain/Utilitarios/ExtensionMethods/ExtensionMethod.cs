@@ -12,7 +12,7 @@ namespace Hoplon.Domain.Utilitarios.ExtensionMethods
     public static bool AddOrdered(this List<string> list, string value)
     {
       list.Add(value);
-      list.Sort();
+      list.Sort(); // quickSort O(n²)
       return true;
     }
 
@@ -20,18 +20,19 @@ namespace Hoplon.Domain.Utilitarios.ExtensionMethods
 #pragma warning disable CS1030 // diretiva de #aviso
 #warning Alterar a abordagem de KeyValuePair para dict ou outra estrutura que implemente o IComparable para reduzir a complexidade do algoritmo.
 
+    // O(n²)
     public static bool AddOrdered(this List<KeyValuePair<int, List<string>>> list, KeyValuePair<int, List<string>> value)
     {
       List<KeyValuePair<int, List<string>>> aux = new List<KeyValuePair<int, List<string>>>();
       list.Add(value);
 
-      // Isso aqui é um cancer, acrescenta mais sobrecarga, pois cria uma copia da lista em vez de classifica no lugar.
-      // Infelizmente deixar assim por falta de prazo, e tb por ter feito decisão errada.
+      // Isso aqui é não é a melhor solução, 
+      // acrescenta mais sobrecarga, pois cria uma copia da lista em vez de classifica no lugar.
       aux.AddRange(list);
-      var ordenado = aux.OrderBy(s => s.Key);
+      var ordenado = aux.OrderBy(s => s.Key); // O(n²) no pior caso e O(n log n) no médio caso.
 
       list.Clear();
-      list.AddRange(ordenado);
+      list.AddRange(ordenado); 
 
       return true;
     }
@@ -68,8 +69,8 @@ namespace Hoplon.Domain.Utilitarios.ExtensionMethods
 
     public static List<string> ToLower(this List<string> list)
     {
-      for (int i = 0; i < list.Count(); i++)
-        list[i] = list[i].ToLower();
+      for (int i = 0; i < list.Count(); i++) // O (n)
+        list[i] = list[i].ToLower(); // n O(n) = O(n²)
       return list;
     }
   }
