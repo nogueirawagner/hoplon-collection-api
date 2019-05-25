@@ -16,18 +16,18 @@ namespace Hoplon.Tests
       Assert.IsFalse(hc.Add("ano.nascimento", 1981, "pedro"));
       Assert.IsTrue(hc.Add("ano.nascimento", 1980, "joao"));
 
-      var retornoTeste = hc.RetornoTeste();
-      Assert.AreEqual(retornoTeste.Count, 1);
-      Assert.AreEqual(retornoTeste.First().Key, "ano.nascimento");
+      var RetornoApoioTeste = hc.RetornoApoioTeste();
+      Assert.AreEqual(RetornoApoioTeste.Count, 1);
+      Assert.AreEqual(RetornoApoioTeste.First().Key, "ano.nascimento");
 
       // Verificar quantidade de subIndex deve ser 2.
-      Assert.AreEqual(retornoTeste.First().Value.Count, 2);
+      Assert.AreEqual(RetornoApoioTeste.First().Value.Count, 2);
 
-      var subIndex1980 = retornoTeste.First().Value.First(s => s.Key == 1980);
+      var subIndex1980 = RetornoApoioTeste.First().Value.First(s => s.Key == 1980);
       Assert.AreEqual(subIndex1980.Value.Count, 1);
       Assert.AreEqual(subIndex1980.Value.First(), "joao");
 
-      var subIndex1981 = retornoTeste.First().Value.First(s => s.Key == 1981);
+      var subIndex1981 = RetornoApoioTeste.First().Value.First(s => s.Key == 1981);
       Assert.AreEqual(subIndex1981.Value.Count, 1);
       Assert.AreEqual(subIndex1981.Value.First(), "pedro");
     }
@@ -42,7 +42,7 @@ namespace Hoplon.Tests
       Assert.IsTrue(hc.Add("ano.nascimento", 1980, "joao"));
       Assert.IsTrue(hc.Add("ano.nascimento", 1982, "paulo"));
 
-      var retorno = hc.RetornoTeste();
+      var retorno = hc.RetornoApoioTeste();
       Assert.AreEqual(retorno.Count, 1);
 
       var sub1980 = retorno.First().Value.First(s => s.Key == 1980);
@@ -67,7 +67,7 @@ namespace Hoplon.Tests
       Assert.IsFalse(hc.Add("ano.nascimento", 1980, "pedro"));
       Assert.IsTrue(hc.Add("ano.nascimento", 1980, "joao"));
 
-      var retorno = hc.RetornoTeste();
+      var retorno = hc.RetornoApoioTeste();
       Assert.AreEqual(retorno.First().Key, "ano.nascimento");
 
       var subIndx = retorno.First().Value.First();
@@ -97,7 +97,7 @@ namespace Hoplon.Tests
       Assert.IsFalse(hc.Add("ano.nascimento", 2020, "maria"));
       Assert.IsFalse(hc.Add("ano.nascimento", 2020, "joao"));
 
-      var retorno = hc.RetornoTeste();
+      var retorno = hc.RetornoApoioTeste();
       Assert.AreEqual(retorno.First().Key, "ano.nascimento");
       Assert.AreEqual(retorno.First().Value.Count, 4);
 
@@ -143,7 +143,7 @@ namespace Hoplon.Tests
       Assert.IsTrue(hc.Add("ano.nascimento", 2020, "ford"));
       Assert.IsTrue(hc.Add("ano.nascimento", 2020, "focus"));
 
-      var retorno = hc.RetornoTeste();
+      var retorno = hc.RetornoApoioTeste();
       Assert.AreEqual(retorno.First().Key, "ano.nascimento");
       Assert.AreEqual(retorno.First().Value.Count, 4);
 
@@ -189,7 +189,7 @@ namespace Hoplon.Tests
       Assert.IsTrue(hc.Add("cidades", 1980, "maria"));
       Assert.IsTrue(hc.Add("cidades", 1980, "joao"));
 
-      var retorno = hc.RetornoTeste();
+      var retorno = hc.RetornoApoioTeste();
 
       // Qtd de chaves
       Assert.AreEqual(retorno.Count, 2);
@@ -239,7 +239,7 @@ namespace Hoplon.Tests
       Assert.IsTrue(hc.Add("jogos", 5002, "voley"));
 
 
-      var retorno = hc.RetornoTeste();
+      var retorno = hc.RetornoApoioTeste();
 
       // Qtd de chaves
       Assert.AreEqual(retorno.Count, 4);
@@ -349,7 +349,7 @@ namespace Hoplon.Tests
       Assert.IsTrue(hc.Add("nomes", 1982, "Bruno"));
       Assert.IsTrue(hc.Add("nomes", 1982, "Paulo"));
 
-      var retorno = hc.RetornoTeste();
+      var retorno = hc.RetornoApoioTeste();
 
       string[] compare1980 = { "Carlos", "Cristiano", "Cristiano Araujo", "Cristiano Braujo", "Cristiano Craujo", "Willian" };
       string[] compare1981 = { "Maria Alves", "Maria Borboleta", "Maria Carla", "Maria Coró", "Mercia" };
@@ -407,7 +407,7 @@ namespace Hoplon.Tests
       Assert.IsTrue(hc.Add("nomes", 1981, "Maria Coró"));
       Assert.IsTrue(hc.Add("nomes", 1981, "Maria Carla"));
 
-      var retorno = hc.RetornoTeste();
+      var retorno = hc.RetornoApoioTeste();
 
       string[] compare1980 = { "Carlos", "Cristiano", "Cristiano Araujo", "Cristiano Braujo", "Cristiano Craujo", "Willian" };
       string[] compare1981 = { "Maria Alves", "Maria Borboleta", "Maria Carla", "Maria Coró", "Mercia" };
@@ -437,7 +437,7 @@ namespace Hoplon.Tests
         Assert.AreEqual(si1982.Value[i], compare1982[i]);
 
       tam = retorno.First().Value.Count;
-        for (int i = 0; i < tam; i++)
+      for (int i = 0; i < tam; i++)
         Assert.AreEqual(retorno.First().Value[i].Key, compareSubIndices[i]);
     }
 
@@ -454,16 +454,398 @@ namespace Hoplon.Tests
 
       Assert.IsTrue(hc.Add("nomes", 1981, "Mercia"));
 
-      var retorno = hc.RetornoTeste();
+      var retorno = hc.RetornoApoioTeste();
 
-      string[] compare = { "bairros", "cidades", "nomes", "países"};
-      
+      string[] compare = { "bairros", "cidades", "nomes", "países" };
+
       // Qtd de chaves
       Assert.AreEqual(retorno.Count, 4);
-      
+
       var tam = retorno.First().Value.Count;
       for (int i = 0; i < tam; i++)
         Assert.AreEqual(retorno[0].Key, compare[i]);
+    }
+
+    [TestMethod]
+    [Description("Testar buscar registros sem offset de uma chave com um subIndice")]
+    public void TestarBuscarRegistrosSemOffSetComUmSubIndice()
+    {
+      var hc = new HoplonCollection();
+      Assert.IsTrue(hc.Add("nomes", 1980, "Carlos"));
+      Assert.IsTrue(hc.Add("nomes", 1980, "Willian"));
+      Assert.IsTrue(hc.Add("nomes", 1980, "Cristiano"));
+      Assert.IsTrue(hc.Add("nomes", 1980, "Cristiano Craujo"));
+      Assert.IsTrue(hc.Add("nomes", 1980, "Cristiano Braujo"));
+      Assert.IsTrue(hc.Add("nomes", 1980, "Cristiano Araujo"));
+
+      var retorno = hc.Get("nomes", 0, 0);
+
+      string[] compare = { "Carlos", "Cristiano", "Cristiano Araujo", "Cristiano Braujo", "Cristiano Craujo", "Willian" };
+
+      Assert.AreEqual(retorno.Count, 6);
+      for (int i = 0; i < 6; i++)
+        Assert.AreEqual(retorno[i], compare[i]);
+    }
+
+    [TestMethod]
+    [Description("Testar buscar registros sem offset de uma chave com mais de um subIndice")]
+    public void TestarBuscarRegistrosSemOffSetComMaisSubIndice()
+    {
+      var hc = new HoplonCollection();
+      Assert.IsTrue(hc.Add("nomes", 1930, "Carlos"));
+      Assert.IsTrue(hc.Add("nomes", 1980, "Willian"));
+      Assert.IsTrue(hc.Add("nomes", 1979, "Cristiano"));
+
+      Assert.IsTrue(hc.Add("nomes", 1981, "Cristiano Craujo"));
+      Assert.IsTrue(hc.Add("nomes", 1982, "Cristiano Braujo"));
+      Assert.IsTrue(hc.Add("nomes", 1950, "Cristiano Araujo"));
+
+      var retorno = hc.Get("nomes", 0, 0);
+
+      string[] compare = { "Carlos", "Cristiano Araujo", "Cristiano", "Willian", "Cristiano Craujo", "Cristiano Braujo" };
+
+      Assert.AreEqual(retorno.Count, 6);
+      for (int i = 0; i < 6; i++)
+        Assert.AreEqual(retorno[i], compare[i]);
+    }
+
+    [TestMethod]
+    [Description("Testar buscar registros com start 1 e end 3 com um subIndice")]
+    public void TestarBuscarRegistrosComOffSetComUmSubIndice()
+    {
+      var hc = new HoplonCollection();
+      Assert.IsTrue(hc.Add("nomes", 1980, "Carlos"));
+      Assert.IsTrue(hc.Add("nomes", 1980, "Willian"));
+      Assert.IsTrue(hc.Add("nomes", 1980, "Cristiano"));
+      Assert.IsTrue(hc.Add("nomes", 1980, "Cristiano Craujo"));
+      Assert.IsTrue(hc.Add("nomes", 1980, "Cristiano Braujo"));
+      Assert.IsTrue(hc.Add("nomes", 1980, "Cristiano Araujo"));
+
+      var retorno = hc.Get("nomes", 1, 3);
+
+      string[] compare = { "Cristiano", "Cristiano Araujo", "Cristiano Braujo" };
+
+      Assert.AreEqual(retorno.Count, 3);
+      for (int i = 0; i < 3; i++)
+        Assert.AreEqual(retorno[i], compare[i]);
+    }
+
+    [TestMethod]
+    [Description("Testar buscar registros com start 1 e end 3 com mais chaves existentes e subIndice iguais")]
+    public void TesteBuscarComMaisChavesExistentesSubIguais()
+    {
+      var hc = new HoplonCollection();
+      Assert.IsTrue(hc.Add("nomes", 1980, "Carlos"));
+      Assert.IsTrue(hc.Add("nomes", 1980, "Willian"));
+      Assert.IsTrue(hc.Add("nomes", 1980, "Cristiano"));
+      Assert.IsTrue(hc.Add("nomes", 1980, "Cristiano Craujo"));
+      Assert.IsTrue(hc.Add("nomes", 1980, "Cristiano Braujo"));
+      Assert.IsTrue(hc.Add("nomes", 1980, "Cristiano Araujo"));
+
+      Assert.IsTrue(hc.Add("carro", 1980, "Carlos"));
+      Assert.IsTrue(hc.Add("carro", 1980, "Willian"));
+      Assert.IsTrue(hc.Add("carro", 1980, "Cristiano"));
+
+      Assert.IsTrue(hc.Add("jogos", 1980, "Cristiano Craujo"));
+      Assert.IsTrue(hc.Add("jogos", 1980, "Cristiano Braujo"));
+      Assert.IsTrue(hc.Add("jogos", 1980, "Cristiano Araujo"));
+
+      var retorno = hc.Get("nomes", 1, 3);
+
+      string[] compare = { "Cristiano", "Cristiano Araujo", "Cristiano Braujo" };
+
+      Assert.AreEqual(retorno.Count, 3);
+      for (int i = 0; i < 3; i++)
+        Assert.AreEqual(retorno[i], compare[i]);
+    }
+
+    [TestMethod]
+    [Description("Testar buscar registros com start 1 e end 3 com mais chaves existentes e subIndice diferentes")]
+    public void TesteBuscarComMaisChavesExistentesSubDiferentes()
+    {
+      var hc = new HoplonCollection();
+      Assert.IsTrue(hc.Add("nomes", 48, "Carlos"));
+      Assert.IsTrue(hc.Add("nomes", 8563, "Willian"));
+      Assert.IsTrue(hc.Add("nomes", 2487, "Cristiano"));
+      Assert.IsTrue(hc.Add("nomes", 885, "Cristiano Craujo"));
+      Assert.IsTrue(hc.Add("nomes", 7446, "Cristiano Braujo"));
+      Assert.IsTrue(hc.Add("nomes", 9866, "Cristiano Araujo"));
+
+      Assert.IsTrue(hc.Add("carro", 7854, "Fusca"));
+      Assert.IsTrue(hc.Add("carro", 9515, "Gol"));
+      Assert.IsTrue(hc.Add("carro", 3456, "Opala"));
+
+      Assert.IsTrue(hc.Add("jogos", 7654, "Futebol"));
+      Assert.IsTrue(hc.Add("jogos", 3474, "gude"));
+      Assert.IsTrue(hc.Add("jogos", 7895, "ping pong"));
+
+      var retorno = hc.Get("nomes", 1, 3);
+
+      string[] compare = { "Cristiano Craujo", "Cristiano", "Cristiano Braujo" };
+
+      Assert.AreEqual(retorno.Count, 3);
+      for (int i = 0; i < 3; i++)
+        Assert.AreEqual(retorno[i], compare[i]);
+    }
+
+    [TestMethod]
+    [Description("Testar buscar registros com start negativo com um subIndice")]
+    public void TestarBuscarRegistrosComStartNegativo1()
+    {
+      var hc = new HoplonCollection();
+      Assert.IsTrue(hc.Add("nomes", 1980, "Carlos"));
+      Assert.IsTrue(hc.Add("nomes", 1980, "Willian"));
+      Assert.IsTrue(hc.Add("nomes", 1980, "Cristiano"));
+      Assert.IsTrue(hc.Add("nomes", 1980, "Cristiano Craujo"));
+      Assert.IsTrue(hc.Add("nomes", 1980, "Cristiano Braujo"));
+      Assert.IsTrue(hc.Add("nomes", 1980, "Cristiano Araujo"));
+
+      var retorno = hc.Get("nomes", -1, 0);
+
+      string[] compare = { "Carlos", "Cristiano", "Cristiano Araujo", "Cristiano Braujo", "Cristiano Craujo", "Willian" };
+
+      Assert.AreEqual(retorno.Count, 6);
+      for (int i = 0; i < 6; i++)
+        Assert.AreEqual(retorno[i], compare[i]);
+    }
+
+    [TestMethod]
+    [Description("Testar buscar registros com start 0 e end negativo com um subIndice")]
+    public void TestarBuscarRegistrosComEndNegativo()
+    {
+      var hc = new HoplonCollection();
+      Assert.IsTrue(hc.Add("nomes", 1980, "Carlos"));
+      Assert.IsTrue(hc.Add("nomes", 1980, "Willian"));
+      Assert.IsTrue(hc.Add("nomes", 1980, "Cristiano"));
+      Assert.IsTrue(hc.Add("nomes", 1980, "Cristiano Craujo"));
+      Assert.IsTrue(hc.Add("nomes", 1980, "Cristiano Braujo"));
+      Assert.IsTrue(hc.Add("nomes", 1980, "Cristiano Araujo"));
+
+      var retorno = hc.Get("nomes", 0, -1);
+
+      string[] compare = { "Carlos", "Cristiano", "Cristiano Araujo", "Cristiano Braujo", "Cristiano Craujo", "Willian" };
+
+      Assert.AreEqual(retorno.Count, 6);
+      for (int i = 0; i < 6; i++)
+        Assert.AreEqual(retorno[i], compare[i]);
+
+      // -2 
+      retorno = hc.Get("nomes", 0, -2);
+      Assert.AreEqual(retorno.Count, 5);
+      for (int i = 0; i < 5; i++)
+        Assert.AreEqual(retorno[i], compare[i]);
+
+      // -3 
+      retorno = hc.Get("nomes", 0, -3);
+      Assert.AreEqual(retorno.Count, 4);
+      for (int i = 0; i < 4; i++)
+        Assert.AreEqual(retorno[i], compare[i]);
+
+      // -4 
+      retorno = hc.Get("nomes", 0, -4);
+      Assert.AreEqual(retorno.Count, 3);
+      for (int i = 0; i < 3; i++)
+        Assert.AreEqual(retorno[i], compare[i]);
+
+      // -5 
+      retorno = hc.Get("nomes", 0, -5);
+      Assert.AreEqual(retorno.Count, 2);
+      for (int i = 0; i < 2; i++)
+        Assert.AreEqual(retorno[i], compare[i]);
+
+      // -6 
+      retorno = hc.Get("nomes", 0, -6);
+      Assert.AreEqual(retorno.Count, 1);
+      for (int i = 0; i < 1; i++)
+        Assert.AreEqual(retorno[i], compare[i]);
+
+      // -7 
+      retorno = hc.Get("nomes", 0, -7);
+      Assert.AreEqual(retorno.Count, 0);
+
+      // -8 
+      retorno = hc.Get("nomes", 0, -8);
+      Assert.AreEqual(retorno.Count, 6);
+      for (int i = 0; i < 6; i++)
+        Assert.AreEqual(retorno[i], compare[i]);
+    }
+
+    [TestMethod]
+    [Description("Remover chave já existente")]
+    public void TesteRemoverChaveExiste()
+    {
+      var hc = new HoplonCollection();
+      Assert.IsTrue(hc.Add("nomes", 1980, "Carlos"));
+      Assert.IsTrue(hc.Add("nomes", 1980, "Willian"));
+      Assert.IsTrue(hc.Add("nomes", 1980, "Cristiano"));
+      Assert.IsTrue(hc.Add("nomes", 1980, "Cristiano Craujo"));
+      Assert.IsTrue(hc.Add("nomes", 1980, "Cristiano Braujo"));
+      Assert.IsTrue(hc.Add("nomes", 1980, "Cristiano Araujo"));
+
+      Assert.IsTrue(hc.Remove("nomes"));
+
+      var retorno = hc.Get("nomes", 0, 0);
+      Assert.AreEqual(retorno.Count, 0);
+    }
+
+    [TestMethod]
+    [Description("Remover chave que nao existe")]
+    public void TesteRemoverChaveNaoExistente()
+    {
+      var hc = new HoplonCollection();
+      Assert.IsTrue(hc.Add("nomes", 1980, "Carlos"));
+      Assert.IsTrue(hc.Add("nomes", 1980, "Willian"));
+      Assert.IsTrue(hc.Add("nomes", 1980, "Cristiano"));
+      Assert.IsTrue(hc.Add("nomes", 1980, "Cristiano Craujo"));
+      Assert.IsTrue(hc.Add("nomes", 1980, "Cristiano Braujo"));
+      Assert.IsTrue(hc.Add("nomes", 1980, "Cristiano Araujo"));
+
+      Assert.IsFalse(hc.Remove("chaves"));
+
+      var retorno = hc.Get("nomes", 0, 0);
+      Assert.AreEqual(retorno.Count, 6);
+    }
+
+    [TestMethod]
+    [Description("Remover chave que existe e deixar outras")]
+    public void TesteRemoverChaveExistenteEDeixarOutras()
+    {
+      var hc = new HoplonCollection();
+      Assert.IsTrue(hc.Add("nomes", 1980, "Carlos"));
+      Assert.IsTrue(hc.Add("nomes", 1980, "Willian"));
+      Assert.IsTrue(hc.Add("nomes", 1980, "Cristiano"));
+      Assert.IsTrue(hc.Add("nomes", 1980, "Cristiano Craujo"));
+      Assert.IsTrue(hc.Add("nomes", 1980, "Cristiano Braujo"));
+      Assert.IsTrue(hc.Add("nomes", 1980, "Cristiano Araujo"));
+
+      Assert.IsTrue(hc.Add("carro", 7854, "Fusca"));
+      Assert.IsTrue(hc.Add("carro", 9515, "Gol"));
+      Assert.IsTrue(hc.Add("carro", 3456, "Opala"));
+
+      Assert.IsTrue(hc.Add("jogos", 7654, "Futebol"));
+      Assert.IsTrue(hc.Add("jogos", 3474, "gude"));
+      Assert.IsTrue(hc.Add("jogos", 7895, "ping pong"));
+
+      Assert.IsTrue(hc.Remove("jogos"));
+
+      var retorno = hc.Get("nomes", 0, 0);
+      Assert.AreEqual(retorno.Count, 6);
+
+      retorno = hc.Get("carro", 0, 0);
+      Assert.AreEqual(retorno.Count, 3);
+
+      retorno = hc.Get("jogos", 0, 0);
+      Assert.AreEqual(retorno.Count, 0);
+
+      // Tentar remover novamente
+      Assert.IsFalse(hc.Remove("jogos"));
+    }
+
+    [TestMethod]
+    [Description("Remover chave e subIndex")]
+    public void TesteRemoverChaveESubIndex()
+    {
+      var hc = new HoplonCollection();
+      Assert.IsTrue(hc.Add("nomes", 1980, "Carlos"));
+      Assert.IsTrue(hc.Add("nomes", 1980, "Willian"));
+      Assert.IsTrue(hc.Add("nomes", 1980, "Cristiano"));
+      Assert.IsTrue(hc.Add("nomes", 1980, "Cristiano Craujo"));
+      Assert.IsTrue(hc.Add("nomes", 1980, "Cristiano Braujo"));
+      Assert.IsTrue(hc.Add("nomes", 1980, "Cristiano Araujo"));
+
+      Assert.IsTrue(hc.RemoveValuesFromSubIndex("nomes", 1980));
+
+      var retorno = hc.Get("nomes", 0, 0);
+      Assert.AreEqual(retorno.Count, 0);
+    }
+
+    [TestMethod]
+    [Description("Remover chave e subIndex que nao existe")]
+    public void TesteRemoverChaveESubIndexNaoExistente()
+    {
+      var hc = new HoplonCollection();
+      Assert.IsTrue(hc.Add("nomes", 1980, "Carlos"));
+      Assert.IsTrue(hc.Add("nomes", 1980, "Willian"));
+      Assert.IsTrue(hc.Add("nomes", 1980, "Cristiano"));
+      Assert.IsTrue(hc.Add("nomes", 1980, "Cristiano Craujo"));
+      Assert.IsTrue(hc.Add("nomes", 1980, "Cristiano Braujo"));
+      Assert.IsTrue(hc.Add("nomes", 1980, "Cristiano Araujo"));
+
+      Assert.IsFalse(hc.RemoveValuesFromSubIndex("nomes", 2222));
+
+      var retorno = hc.Get("nomes", 0, 0);
+      Assert.AreEqual(retorno.Count, 6);
+    }
+
+    [TestMethod]
+    [Description("Remover chave e subIndex e manter outros existentes para mesma chave")]
+    public void TesteRemoverChaveESubIndexComOutrosExistentes()
+    {
+      var hc = new HoplonCollection();
+      Assert.IsTrue(hc.Add("nomes", 1980, "Carlos"));
+      Assert.IsTrue(hc.Add("nomes", 1980, "Willian"));
+      Assert.IsTrue(hc.Add("nomes", 1980, "Cristiano"));
+      Assert.IsTrue(hc.Add("nomes", 1980, "Cristiano Craujo"));
+      Assert.IsTrue(hc.Add("nomes", 1980, "Cristiano Braujo"));
+      Assert.IsTrue(hc.Add("nomes", 1980, "Cristiano Araujo"));
+
+      Assert.IsTrue(hc.Add("nomes", 2000, "Fusca"));
+      Assert.IsTrue(hc.Add("nomes", 2000, "Gol"));
+      Assert.IsTrue(hc.Add("nomes", 2000, "Opala"));
+
+      Assert.IsTrue(hc.Add("nomes", 8885, "Futebol"));
+      Assert.IsTrue(hc.Add("nomes", 8885, "gude"));
+      Assert.IsTrue(hc.Add("nomes", 8885, "ping pong"));
+
+      Assert.IsTrue(hc.RemoveValuesFromSubIndex("nomes", 2000));
+
+      var retorno = hc.Get("nomes", 0, 0);
+      Assert.AreEqual(retorno.Count, 9);
+    }
+
+    [TestMethod]
+    [Description("Retornar o index do elemento com mais de um subIndice")]
+    public void TesteRetornarIndexElementoComMaisDeUmSubIndice()
+    {
+      var hc = new HoplonCollection();
+      Assert.IsTrue(hc.Add("nomes", 1980, "Carlos"));
+      Assert.IsTrue(hc.Add("nomes", 1980, "Willian"));
+      Assert.IsTrue(hc.Add("nomes", 1980, "Cristiano"));
+      Assert.IsTrue(hc.Add("nomes", 1980, "Cristiano Craujo"));
+      Assert.IsTrue(hc.Add("nomes", 1980, "Cristiano Braujo"));
+      Assert.IsTrue(hc.Add("nomes", 1980, "Cristiano Araujo"));
+
+      Assert.IsTrue(hc.Add("nomes", 2000, "Fusca"));
+      Assert.IsTrue(hc.Add("nomes", 2000, "Gol"));
+      Assert.IsTrue(hc.Add("nomes", 2000, "Opala"));
+
+      Assert.IsTrue(hc.Add("nomes", 8885, "Futebol"));
+      Assert.IsTrue(hc.Add("nomes", 8885, "gude"));
+      Assert.IsTrue(hc.Add("nomes", 8885, "ping pong"));
+
+      Assert.AreEqual(hc.IndexOf("nomes", "Fusca"), 6);
+      Assert.AreEqual(hc.IndexOf("nomes", "ping Pong"), 11);
+      Assert.AreEqual(hc.IndexOf("nomes", "carlos"), 0);
+    }
+
+    [TestMethod]
+    [Description("Retornar o index do elemento com  um subIndice")]
+    public void TesteRetornarIndexElementoComUmSubIndice()
+    {
+      var hc = new HoplonCollection();
+      Assert.IsTrue(hc.Add("nomes", 1980, "Carlos"));
+      Assert.IsTrue(hc.Add("nomes", 1980, "Willian"));
+      Assert.IsTrue(hc.Add("nomes", 1980, "Cristiano"));
+      Assert.IsTrue(hc.Add("nomes", 1980, "Cristiano Craujo"));
+      Assert.IsTrue(hc.Add("nomes", 1980, "Cristiano Braujo"));
+      Assert.IsTrue(hc.Add("nomes", 1980, "Cristiano Araujo"));
+
+      var retorno = hc.Get("nomes", 0, 0);
+
+      // nao esquecer de considerar a ordenação.
+      Assert.AreEqual(hc.IndexOf("nomes", "willian"), 5);
+      Assert.AreEqual(hc.IndexOf("nomes", "Cristiano Araujo"), 2);
+      Assert.AreEqual(hc.IndexOf("nomes", "carlos"), 0);
     }
   }
 }

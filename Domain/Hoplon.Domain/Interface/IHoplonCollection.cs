@@ -11,6 +11,7 @@ namespace Hoplon.Domain.Interface
     IList<string> Get(string key, int start, int end);
     bool Remove(string key);
     bool RemoveValuesFromSubIndex(string key, int subIndex);
-    IList<CollectionHoplon> RetornoTeste();
+    long IndexOf(string key, string value);
+    IList<CollectionHoplon> RetornoApoioTeste();
   }
 }

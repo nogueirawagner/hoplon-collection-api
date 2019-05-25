@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Hoplon.Domain.Utilitarios.ExtensionMethods
 {
@@ -15,6 +16,7 @@ namespace Hoplon.Domain.Utilitarios.ExtensionMethods
       return true;
     }
 
+    #region Refatorar
 #pragma warning disable CS1030 // diretiva de #aviso
 #warning Alterar a abordagem de KeyValuePair para dict ou outra estrutura que implemente o IComparable para reduzir a complexidade do algoritmo.
 
@@ -22,7 +24,7 @@ namespace Hoplon.Domain.Utilitarios.ExtensionMethods
     {
       List<KeyValuePair<int, List<string>>> aux = new List<KeyValuePair<int, List<string>>>();
       list.Add(value);
-      
+
       // Isso aqui é um cancer, acrescenta mais sobrecarga, pois cria uma copia da lista em vez de classifica no lugar.
       // Infelizmente deixar assim por falta de prazo, e tb por ter feito decisão errada.
       aux.AddRange(list);
@@ -48,11 +50,27 @@ namespace Hoplon.Domain.Utilitarios.ExtensionMethods
 
 #pragma warning restore CS1030 // diretiva de #aviso
 
+    #endregion Refatorar
+
     public static bool RemoveOrdered(this List<string> list, string value)
     {
       list.Remove(value);
       list.Sort();
       return true;
+    }
+
+    public static int GetValueValid(this int start)
+    {
+      if (start < 0)
+        return 0;
+      return start;
+    }
+
+    public static List<string> ToLower(this List<string> list)
+    {
+      for (int i = 0; i < list.Count(); i++)
+        list[i] = list[i].ToLower();
+      return list;
     }
   }
 }

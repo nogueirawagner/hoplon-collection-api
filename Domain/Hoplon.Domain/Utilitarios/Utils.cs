@@ -4,6 +4,12 @@ namespace Hoplon.Domain.Utilitarios
 {
   public static class Utils
   {
+    /// <summary>
+    /// Pega index por valor.
+    /// </summary>
+    /// <param name="colection"></param>
+    /// <param name="value"></param>
+    /// <returns></returns>
     public static int GetIndexValue(List<KeyValuePair<int, List<string>>> colection, string value)
     {
       int index = 0;

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Hoplon.Domain.Interface;
 using Hoplon.Domain.Models;
 using Hoplon.Domain.Utilitarios;
@@ -7,11 +8,6 @@ using Hoplon.Domain.Utilitarios.ExtensionMethods;
 
 namespace Hoplon.Domain.Implementation
 {
-  public class Aux
-  {
-    public int subIndex { get; set; }
-  }
-
   public class HoplonCollection : IHoplonCollection
   {
     private List<CollectionHoplon> _collectionHoplon = new List<CollectionHoplon>();
@@ -87,17 +83,63 @@ namespace Hoplon.Domain.Implementation
 
     public IList<string> Get(string key, int start, int end)
     {
-      throw new System.NotImplementedException();
+      IEnumerable<string> retorno;
+      var chave = _collectionHoplon.Where(s => s.Key == key);
+
+      retorno = chave.SelectMany(s => s.Value.SelectMany(x => x.Value).AsEnumerable()).AsEnumerable();
+      int qtdElementos = retorno.Count();
+
+      if (end > 0)
+      {
+        return retorno.Skip(start.GetValueValid()).Take(end).ToList();
+      }
+      else if (end == 0)
+      {
+        return retorno.Skip(start.GetValueValid()).ToList();
+      }
+      else if (end < 0)
+      {
+        if (end == -1)
+          return retorno.Skip(start.GetValueValid()).Take(qtdElementos).ToList();
+        if (end < -1)
+        {
+          end *= (-1);
+          end = (end - 1) > qtdElementos ? qtdElementos : (qtdElementos - end) + 1;
+          return retorno.Skip(start.GetValueValid()).Take(end).ToList();
+        }
+      }
+
+      return retorno.Skip(start.GetValueValid()).Take(end).ToList();
+    }
+
+    public long IndexOf(string key, string value)
+    {
+      List<string> retorno;
+      var chave = _collectionHoplon.Where(s => s.Key == key);
+
+      retorno = chave.SelectMany(s => s.Value.SelectMany(x => x.Value).AsEnumerable()).AsEnumerable().ToList();
+      return retorno.ToLower().IndexOf(value.ToLower());
     }
 
     public bool Remove(string key)
     {
-      throw new System.NotImplementedException();
+      var chave = _collectionHoplon.FirstOrDefault(s => s.Key == key);
+      _collectionHoplon.Remove(chave);
+
+      return chave != null ? true : false;
     }
 
     public bool RemoveValuesFromSubIndex(string key, int subIndex)
     {
-      throw new System.NotImplementedException();
+      var chave = _collectionHoplon.FirstOrDefault(s => s.Key == key);
+      if (chave != null)
+      {
+        var sub = chave.Value.FirstOrDefault(s => s.Key == subIndex);
+        chave.Value.Remove(sub);
+
+        return sub.Value != null ? true : false;
+      }
+      return false;
     }
 
     /// <summary>
@@ -105,7 +147,7 @@ namespace Hoplon.Domain.Implementation
     /// Talvez eu ainda irei retirar este método caso necessário.
     /// </summary>
     /// <returns></returns>
-    public IList<CollectionHoplon> RetornoTeste()
+    public IList<CollectionHoplon> RetornoApoioTeste()
     {
       return _collectionHoplon;
     }
