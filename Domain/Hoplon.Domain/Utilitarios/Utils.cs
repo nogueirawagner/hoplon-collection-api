@@ -15,19 +15,6 @@ namespace Hoplon.Domain.Utilitarios
       // Utilizar parallel mesmo não sendo thread-safe, 
       // pois neste ponto ñ estou considerando a coleção ser alterada.
 
-      //int indexParalelo = 0;
-      //Parallel.ForEach(colection, col => 
-      //{
-      //  Parallel.ForEach(col.Value, val =>
-      //  {
-      //    if(val == value)
-      //    {
-      //      indexParalelo = col.Key;
-      //      break;
-      //    }
-      //  });
-      //});
-
       int index = 0;
       foreach (var col in colection)  // o(n) 
       {
