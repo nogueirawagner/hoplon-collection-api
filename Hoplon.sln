@@ -5,8 +5,6 @@ VisualStudioVersion = 15.0.28307.168
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hoplon.Domain", "Domain\Hoplon.Domain\Hoplon.Domain.csproj", "{238B5252-1DDA-476C-926B-14E40C36B988}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp1", "ConsoleApp1\ConsoleApp1.csproj", "{11AA0644-93F8-49AA-8F47-E88BF0A117F6}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hoplon.Tests", "UnitTests\Hoplon.Tests\Hoplon.Tests.csproj", "{44081763-5133-442A-8339-C4324DFDE325}"
 EndProject
 Global
@@ -19,10 +17,6 @@ Global
 		{238B5252-1DDA-476C-926B-14E40C36B988}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{238B5252-1DDA-476C-926B-14E40C36B988}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{238B5252-1DDA-476C-926B-14E40C36B988}.Release|Any CPU.Build.0 = Release|Any CPU
-		{11AA0644-93F8-49AA-8F47-E88BF0A117F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{11AA0644-93F8-49AA-8F47-E88BF0A117F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{11AA0644-93F8-49AA-8F47-E88BF0A117F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{11AA0644-93F8-49AA-8F47-E88BF0A117F6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{44081763-5133-442A-8339-C4324DFDE325}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{44081763-5133-442A-8339-C4324DFDE325}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{44081763-5133-442A-8339-C4324DFDE325}.Release|Any CPU.ActiveCfg = Release|Any CPU
